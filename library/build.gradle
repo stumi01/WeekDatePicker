@@ -17,12 +17,12 @@ group = 'solar.blaz'
 version = '1.2'
 
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 3
         versionName project.version
     }
@@ -41,8 +41,8 @@ dependencies {
 }
 
 bintray {
-    user = bintrayUser
-    key = bintrayKey
+    user = ""
+    key = ""
 
     publish = true
 
