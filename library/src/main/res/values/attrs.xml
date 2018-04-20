@@ -8,6 +8,8 @@
         <attr name="wdp_dividerSize" format="dimension" />
         <attr name="wdp_labelTextSize" format="dimension" />
         <attr name="wdp_labelTextColor" format="color" />
+        <attr name="wdp_selectedDayColor" format="color" />
+        <attr name="wdp_selectedDayLabelColor" format="color" />
         <attr name="wdp_labelPadding" format="dimension"/>
         <attr name="wdp_labelNames" format="reference" />
         <attr name="wdp_dayBackground" format="reference" />

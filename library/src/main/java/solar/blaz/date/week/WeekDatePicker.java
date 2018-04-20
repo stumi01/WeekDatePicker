@@ -86,13 +86,14 @@ public class WeekDatePicker extends View {
 
     private final TextPaint dayTextPaint;
     private final TextPaint dayLabelTextPain;
-    private final Paint selectedDayColor;
 
     private BoringLayout.Metrics dayMetrics;
     private BoringLayout.Metrics dayLabelMetrics;
 
     private ColorStateList dayTextColor;
     private ColorStateList dayLabelTextColor;
+    private ColorStateList selectedDayColor;
+    private ColorStateList selectedDayLabelColor;
 
     private TextUtils.TruncateAt ellipsize;
 
@@ -153,9 +154,6 @@ public class WeekDatePicker extends View {
         dayLabelTextPain = new TextPaint();
         dayLabelTextPain.setAntiAlias(true);
 
-        selectedDayColor = new Paint();
-        selectedDayColor.setColor(Color.RED);
-        selectedDayColor.setStyle(Style.FILL);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -174,6 +172,16 @@ public class WeekDatePicker extends View {
             dayLabelTextColor = a.getColorStateList(R.styleable.WeekDatePicker_wdp_labelTextColor);
             if (dayLabelTextColor == null) {
                 dayLabelTextColor = ColorStateList.valueOf(Color.BLACK);
+            }
+
+            selectedDayColor = a.getColorStateList(R.styleable.WeekDatePicker_wdp_selectedDayColor);
+            if (selectedDayColor == null) {
+                selectedDayColor = ColorStateList.valueOf(Color.BLACK);
+            }
+
+            selectedDayLabelColor = a.getColorStateList(R.styleable.WeekDatePicker_wdp_selectedDayLabelColor);
+            if (selectedDayLabelColor == null) {
+                selectedDayLabelColor = ColorStateList.valueOf(Color.BLACK);
             }
 
             ellipsize = a.getInt(R.styleable.WeekDatePicker_android_ellipsize, ellipsize);
@@ -322,7 +330,11 @@ public class WeekDatePicker extends View {
             BoringLayout layout = layouts[layoutIndex + i];
             BoringLayout labelLayout = dayLabelLayouts[i];
 
-            dayLabelTextPain.setColor(getTextColor(dayLabelTextColor, itemIndex));
+            if (dayIndicators.get(itemIndex - dayDelta, false)) {
+                dayLabelTextPain.setColor(getTextColor(selectedDayLabelColor, itemIndex));
+            }else {
+                dayLabelTextPain.setColor(getTextColor(dayLabelTextColor, itemIndex));
+            }
             labelLayout.draw(canvas);
 
             dayTextPaint.setColor(getTextColor(dayTextColor, itemIndex));
@@ -336,11 +348,18 @@ public class WeekDatePicker extends View {
                 dayDrawable.draw(canvas);
             }
 
-            if (indicatorDrawable != null && dayIndicators.get(itemIndex - dayDelta, false)) {
-                indicatorDrawable.setBounds(indicatorRect);
-                indicatorDrawable.setState(getItemDrawableState(itemIndex));
-                indicatorDrawable.draw(canvas);
+            if (dayIndicators.get(itemIndex - dayDelta, false)){
+
+                dayTextPaint.setColor(getTextColor(selectedDayColor, itemIndex));
+
+                if (indicatorDrawable != null) {
+                    indicatorDrawable.setBounds(indicatorRect);
+                    indicatorDrawable.setState(getItemDrawableState(itemIndex));
+                    indicatorDrawable.draw(canvas);
+                }
+
             }
+
 
             layout.draw(canvas);
 

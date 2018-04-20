@@ -17,6 +17,9 @@
         app:wdp_labelPadding="5dp"
         app:wdp_dayBackground="@drawable/date_picker_day_bg"
         app:wdp_indicatorDrawable="@drawable/date_picker_indicator"
-        app:wdp_firstDayOfWeek="monday"/>
+        app:wdp_firstDayOfWeek="monday"
+        app:wdp_selectedDayColor="@color/selected_day_text_color"
+        app:wdp_selectedDayLabelColor="@color/red"
+        />
 
 </LinearLayout>
