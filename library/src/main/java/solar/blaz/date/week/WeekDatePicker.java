@@ -403,7 +403,7 @@ public class WeekDatePicker extends View {
         toDate = to;
 
         firstDay = getFirstDay(0);
-
+        remakeLayout();
         invalidate();
     }
 
