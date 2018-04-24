@@ -252,6 +252,11 @@ public class WeekDatePicker extends View {
 
     }
 
+    public void reset(){
+        dayDelta=0;
+        selectedWeek=0;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
