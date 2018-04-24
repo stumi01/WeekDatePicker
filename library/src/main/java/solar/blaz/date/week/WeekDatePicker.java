@@ -37,6 +37,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.TemporalAdjusters;
+import org.threeten.bp.temporal.TemporalUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,7 +248,7 @@ public class WeekDatePicker extends View {
 
         today = LocalDate.now();
         firstDay = getFirstDay(0);
-        selectedDay = firstDay.until(today).getDays();
+        selectedDay = (int) firstDay.until(today,ChronoUnit.DAYS);
 
     }
 
@@ -411,7 +412,7 @@ public class WeekDatePicker extends View {
         LocalDate from = newDate == null ? today : newDate;
         LocalDate to = fromDate == null ? today : fromDate;
 
-        int delta = from.until(to).getDays();
+        int delta = (int) from.until(to, ChronoUnit.DAYS);
         selectedDay += delta;
         dayDelta = delta;
 
