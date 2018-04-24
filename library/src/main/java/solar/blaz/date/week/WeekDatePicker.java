@@ -311,7 +311,7 @@ public class WeekDatePicker extends View {
         canvas.translate(position, getPaddingTop());
 
         for (int i = 0; i < 3; i++) {
-            drawWeek(canvas, i * 7, weekOffset + i);
+            drawWeek(canvas, i * 7, weekOffset + i,itemWithPadding);
             canvas.translate(itemWithPadding, 0);
         }
 
@@ -319,20 +319,21 @@ public class WeekDatePicker extends View {
 
     }
 
-    private void drawWeek(Canvas canvas, int layoutIndex, int weekOffset) {
-
+    private void drawWeek(Canvas canvas, int layoutIndex, int weekOffset, float weekWidth) {
         int saveCount = canvas.save();
+        float daySpacing = weekWidth / 7;
 
         int labelHeight = dayLabelLayouts[0].getHeight();
         float circleRadius = dayWidth / 3;
         int centerY = layouts[0].getHeight() / 2;
         float dateLineOffset = circleRadius - centerY;
-
+        canvas.translate((daySpacing - dayWidth)/2,0);
         for (int i = 0; i < 7; i++) {
 
             int itemIndex = weekOffset * 7 + i;
             BoringLayout layout = layouts[layoutIndex + i];
             BoringLayout labelLayout = dayLabelLayouts[i];
+
 
             if (selectedDayLabelColor != null && dayIndicators.get(itemIndex - dayDelta, false)) {
                 dayLabelTextPain.setColor(getTextColor(selectedDayLabelColor, itemIndex));
@@ -369,7 +370,7 @@ public class WeekDatePicker extends View {
 
             canvas.restoreToCount(count);
 
-            canvas.translate(dayWidth, 0);
+            canvas.translate(weekWidth / 7, 0);
         }
 
         canvas.restoreToCount(saveCount);
@@ -877,8 +878,9 @@ public class WeekDatePicker extends View {
      * Returns day of the week for passed coordinates.
      */
     private int getRelativeDayPositionFromCoordinates(int x) {
-        float relativePosition = x % (weekWidth + dividerSize);
-        return (int) (relativePosition / dayWidth);
+        float fullWeekSize = weekWidth + dividerSize;
+        float relativePosition = x % fullWeekSize;
+        return (int) (relativePosition / (fullWeekSize / 7));
     }
 
     private void computeScrollX() {
@@ -969,7 +971,9 @@ public class WeekDatePicker extends View {
         int totalPadding = ((int) dividerSize * (items - 1));
         weekWidth = (w - totalPadding) / items;
         dayWidth = weekWidth / 7;
-
+        if (dayWidth > h){
+            dayWidth = h;
+        }
         scrollToItem(selectedWeek);
 
         buildFontMetrics();
