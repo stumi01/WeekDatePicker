@@ -255,6 +255,7 @@ public class WeekDatePicker extends View {
     public void reset(){
         dayDelta=0;
         selectedWeek=0;
+        dayIndicators.clear();
     }
 
     @Override
