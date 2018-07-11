@@ -4,25 +4,21 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
     }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 group = 'solar.blaz'
 version = '1.2'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 3
         versionName project.version
     }
@@ -36,60 +32,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'org.threeten:threetenbp:1.3.6'
-}
-
-bintray {
-    user = ""
-    key = ""
-
-    publish = true
-
-    configurations = ['archives'] //When uploading configuration files
-    pkg {
-        repo = 'maven'
-        name = 'week-date-picker'
-        desc = 'Lightweight week date picker implmentation for Android.'
-        websiteUrl = "https://github.com/blazsolar/WeekDatePicker"
-        issueTrackerUrl = 'https://github.com/blazsolar/WeekDatePicker/issues'
-        vcsUrl = "https://github.com/blazsolar/WeekDatePicker"
-        licenses = ['MIT']
-        labels = ['aar', 'android', 'date']
-        publicDownloadNumbers = true
-
-        githubRepo = 'blazsolar/WeekDatePicker'
-        githubReleaseNotesFile = 'README.md'
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'Lightweight week date picker implmentation for Android.'
-                url "https://github.com/blazsolar/WeekDatePicker"
-                licenses {
-                    license {
-                        name 'The MIT License (MIT)'
-                        url 'http://rem.mit-license.org'
-                    }
-                }
-                developers {
-                    developer {
-                        id "blazsolar"
-                        name "Blaz Solar"
-                    }
-                }
-                scm {
-                    url "https://github.com/blazsolar/WeekDatePicker"
-                    connection "scm:git@github.com:blazsolar/WeekDatePicker.git"
-                    developerConnection "scm:git@github.com:blazsolar/WeekDatePicker.git"
-                }
-            }
-        }
-    }
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    api 'org.threeten:threetenbp:1.3.6'
 }
 
 task sourcesJar(type: Jar) {
