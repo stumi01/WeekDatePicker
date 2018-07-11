@@ -6,9 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -37,7 +35,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.TemporalAdjusters;
-import org.threeten.bp.temporal.TemporalUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,7 +183,7 @@ public class WeekDatePicker extends View {
             dividerSize = a.getDimension(R.styleable.WeekDatePicker_wdp_dividerSize, dividerSize);
 
             float textSize = a.getDimension(R.styleable.WeekDatePicker_android_textSize, -1);
-            if(textSize > -1) {
+            if (textSize > -1) {
                 setTextSize(textSize);
             }
 
@@ -248,13 +245,13 @@ public class WeekDatePicker extends View {
 
         today = LocalDate.now();
         firstDay = getFirstDay(0);
-        selectedDay = (int) firstDay.until(today,ChronoUnit.DAYS);
+        selectedDay = (int) firstDay.until(today, ChronoUnit.DAYS);
 
     }
 
-    public void reset(){
-        dayDelta=0;
-        selectedWeek=0;
+    public void reset() {
+        dayDelta = 0;
+        selectedWeek = 0;
         dayIndicators.clear();
     }
 
@@ -311,7 +308,7 @@ public class WeekDatePicker extends View {
         canvas.translate(position, getPaddingTop());
 
         for (int i = 0; i < 3; i++) {
-            drawWeek(canvas, i * 7, weekOffset + i,itemWithPadding);
+            drawWeek(canvas, i * 7, weekOffset + i, itemWithPadding);
             canvas.translate(itemWithPadding, 0);
         }
 
@@ -327,7 +324,7 @@ public class WeekDatePicker extends View {
         float circleRadius = dayWidth / 3;
         int centerY = layouts[0].getHeight() / 2;
         float dateLineOffset = circleRadius - centerY;
-        canvas.translate((daySpacing - dayWidth)/2,0);
+        canvas.translate((daySpacing - dayWidth) / 2, 0);
         for (int i = 0; i < 7; i++) {
 
             int itemIndex = weekOffset * 7 + i;
@@ -337,7 +334,7 @@ public class WeekDatePicker extends View {
 
             if (selectedDayLabelColor != null && dayIndicators.get(itemIndex - dayDelta, false)) {
                 dayLabelTextPain.setColor(getTextColor(selectedDayLabelColor, itemIndex));
-            }else {
+            } else {
                 dayLabelTextPain.setColor(getTextColor(dayLabelTextColor, itemIndex));
             }
             labelLayout.draw(canvas);
@@ -353,7 +350,7 @@ public class WeekDatePicker extends View {
                 dayDrawable.draw(canvas);
             }
 
-            if (dayIndicators.get(itemIndex - dayDelta, false)){
+            if (dayIndicators.get(itemIndex - dayDelta, false)) {
 
                 dayTextPaint.setColor(getTextColor(selectedDayColor, itemIndex));
 
@@ -455,7 +452,7 @@ public class WeekDatePicker extends View {
 
     private void remakeLayout() {
 
-        if (getWidth() > 0)  {
+        if (getWidth() > 0) {
 
             LocalDate day = getRelativeFirstDay(-1);
 
@@ -591,7 +588,7 @@ public class WeekDatePicker extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(!isEnabled()) {
+        if (!isEnabled()) {
             return false;
         }
 
@@ -608,9 +605,9 @@ public class WeekDatePicker extends View {
 
                 int deltaMoveX = (int) (lastDownEventX - currentMoveX);
 
-                if(scrollingX || Math.abs(deltaMoveX) > touchSlop) {
+                if (scrollingX || Math.abs(deltaMoveX) > touchSlop) {
 
-                    if(!scrollingX) {
+                    if (!scrollingX) {
                         deltaMoveX = 0;
                         pressedDay = Integer.MIN_VALUE;
                         scrollingX = true;
@@ -628,9 +625,9 @@ public class WeekDatePicker extends View {
                 break;
             case MotionEvent.ACTION_DOWN:
 
-                if(!adjustScrollerX.isFinished()) {
+                if (!adjustScrollerX.isFinished()) {
                     adjustScrollerX.forceFinished(true);
-                } else if(!flingScrollerX.isFinished()) {
+                } else if (!flingScrollerX.isFinished()) {
                     flingScrollerX.forceFinished(true);
                 } else {
                     scrollingX = false;
@@ -638,7 +635,7 @@ public class WeekDatePicker extends View {
 
                 lastDownEventX = event.getX();
 
-                if(!scrollingX) {
+                if (!scrollingX) {
                     pressedDay = getDayPositionFromTouch(event.getX());
                 }
                 invalidate();
@@ -650,16 +647,16 @@ public class WeekDatePicker extends View {
                 velocityTracker.computeCurrentVelocity(500, maximumFlingVelocity);
                 int initialVelocityX = (int) velocityTracker.getXVelocity();
 
-                if(scrollingX && Math.abs(initialVelocityX) > minimumFlingVelocity) {
+                if (scrollingX && Math.abs(initialVelocityX) > minimumFlingVelocity) {
                     flingX(initialVelocityX);
                 } else {
                     float positionX = event.getX();
-                    if(!scrollingX) {
+                    if (!scrollingX) {
                         int itemPos = getDayPositionFromTouch(positionX);
                         if (isItemEnabled(itemPos)) {
                             selectDay(itemPos);
                         }
-                    } else if(scrollingX) {
+                    } else if (scrollingX) {
                         finishScrolling();
                     }
                 }
@@ -841,7 +838,7 @@ public class WeekDatePicker extends View {
     }
 
     private int getDayForDate(@NonNull LocalDate date) {
-        return (int) firstDay.until(date,ChronoUnit.DAYS);
+        return (int) firstDay.until(date, ChronoUnit.DAYS);
     }
 
     @Override
@@ -885,24 +882,24 @@ public class WeekDatePicker extends View {
 
     private void computeScrollX() {
         OverScroller scroller = flingScrollerX;
-        if(scroller.isFinished()) {
+        if (scroller.isFinished()) {
             scroller = adjustScrollerX;
-            if(scroller.isFinished()) {
+            if (scroller.isFinished()) {
                 return;
             }
         }
 
-        if(scroller.computeScrollOffset()) {
+        if (scroller.computeScrollOffset()) {
 
             int currentScrollerX = scroller.getCurrX();
-            if(previousScrollerX == Integer.MIN_VALUE) {
+            if (previousScrollerX == Integer.MIN_VALUE) {
                 previousScrollerX = scroller.getStartX();
             }
 
             scrollBy(currentScrollerX - previousScrollerX, 0);
             previousScrollerX = currentScrollerX;
 
-            if(scroller.isFinished()) {
+            if (scroller.isFinished()) {
                 onScrollerFinishedX(scroller);
             }
 
@@ -912,7 +909,7 @@ public class WeekDatePicker extends View {
 
     private void flingX(int velocityX) {
 
-        int signum= Integer.signum(velocityX);
+        int signum = Integer.signum(velocityX);
 
         int currentWeekPosition = getWeekPositionFromCoordinates(scrollPositionStart);
         float weekWidth = this.weekWidth + dividerSize;
@@ -971,7 +968,7 @@ public class WeekDatePicker extends View {
         int totalPadding = ((int) dividerSize * (items - 1));
         weekWidth = (w - totalPadding) / items;
         dayWidth = weekWidth / 7;
-        if (dayWidth > h){
+        if (dayWidth > h) {
             dayWidth = h;
         }
         scrollToItem(selectedWeek);
@@ -984,7 +981,7 @@ public class WeekDatePicker extends View {
 
     private void calculateBackgroundRect() {
 
-        if (dayDrawable != null) {
+        if (dayDrawable != null && layouts[0] != null) {
             float circleRadius = dayWidth / 3;
             int centerX = layouts[0].getWidth() / 2;
             int centerY = layouts[0].getHeight() / 2;
@@ -999,7 +996,7 @@ public class WeekDatePicker extends View {
 
     private void calculateIndicatorRect() {
 
-        if (indicatorDrawable != null) {
+        if (indicatorDrawable != null && layouts[0] != null) {
 
             float circleRadius = dayWidth / 3;
             int centerX = layouts[0].getWidth() / 2;
@@ -1018,7 +1015,7 @@ public class WeekDatePicker extends View {
     }
 
     private void onScrollerFinishedX(OverScroller scroller) {
-        if(scroller == flingScrollerX) {
+        if (scroller == flingScrollerX) {
             finishScrolling();
         }
     }
@@ -1043,10 +1040,11 @@ public class WeekDatePicker extends View {
 
     /**
      * Sets text size for items
+     *
      * @param size New item text size in px.
      */
     private void setTextSize(float size) {
-        if(size != dayTextPaint.getTextSize()) {
+        if (size != dayTextPaint.getTextSize()) {
             dayTextPaint.setTextSize(size);
 
             buildFontMetrics();
@@ -1067,6 +1065,7 @@ public class WeekDatePicker extends View {
 
     /**
      * Calculates item from x coordinate position.
+     *
      * @param x Scroll position to calculate.
      * @return Selected item from scrolling position in {param x}
      */
@@ -1076,6 +1075,7 @@ public class WeekDatePicker extends View {
 
     /**
      * Scrolls to specified item.
+     *
      * @param index Index of an item to scroll to
      */
     private void scrollToItem(int index) {
@@ -1122,7 +1122,7 @@ public class WeekDatePicker extends View {
     }
 
     private static BoringLayout.Metrics toBoringFontMetrics(FontMetricsInt metrics,
-            @Nullable BoringLayout.Metrics fontMetrics) {
+                                                            @Nullable BoringLayout.Metrics fontMetrics) {
 
         if (fontMetrics == null) {
             fontMetrics = new BoringLayout.Metrics();
@@ -1158,7 +1158,7 @@ public class WeekDatePicker extends View {
 
         @Override
         public String toString() {
-            return  "HorizontalPicker.SavedState{"
+            return "HorizontalPicker.SavedState{"
                     + Integer.toHexString(System.identityHashCode(this))
                     + " selItem=" + mSelItem
                     + "}";
